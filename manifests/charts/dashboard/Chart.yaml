@@ -1,0 +1,18 @@
+apiVersion: v2
+name: kore-board
+type: application
+version: 0.1.0
+appVersion: 0.5.2
+keywords:
+  - kubernetes
+  - multi-clusters
+  - dashboard
+dependencies:
+  - name: metrics-server
+    version: ~3.8.2
+    condition: metrics-server.enabled
+    repository: https://kubernetes-sigs.github.io/metrics-server/
+home: http://github.com/kore3lab/kore-dashboard
+description: Helm chart for deploying Kubernetes multi-clusters dashboard
+sources:
+  - http://github.com/kore3lab/kore-dashboard

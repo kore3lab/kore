@@ -1,0 +1,51 @@
+apiVersion: install.kore3lab.io/v1alpha1
+kind: KoreOperator
+metadata:
+  name: dashboard-aio
+  namespace: kore-system
+spec:
+  components:
+    base:
+      enabled: false
+    dashboard:
+      enabled: true
+  values:
+    packing: "all-in-one"
+    metrics-scraper:
+      persistence:
+        enabled: false
+      resources:
+        requests:
+          memory: "32Mi"
+          cpu: "10m"
+        limits:
+          memory: "64Mi"
+          cpu: "20m"
+    backend:
+      replicaCount: 1
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "50m"
+        limits:
+          memory: "128Mi"
+          cpu: "100m"
+    frontend:
+      replicaCount: 1
+      resources:
+        requests:
+          memory: "32Mi"
+          cpu: "5m"
+        limits:
+          memory: "64Mi"
+          cpu: "10m"
+      service:
+        type: ClusterIP
+    terminal:
+      resources:
+        requests:
+          memory: "96Mi"
+          cpu: "100m"
+        limits:
+          memory: "192Mi"
+          cpu: "150m"

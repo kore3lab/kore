@@ -1,0 +1,106 @@
+{{- if eq .Values.packing "all-in-one" }}
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: dashboard
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: dashboard
+    {{- include "labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.frontend.service.type }}
+  ports:
+    - name: http
+{{- if hasKey .Values.frontend.service "nodePort" }}
+      nodePort: {{ .Values.frontend.service.nodePort }}
+{{- end }}
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app.kubernetes.io/name: dashboard
+
+
+{{- else }}
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: backend
+    {{- include "labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3001
+      targetPort: 3001
+  selector:
+    app.kubernetes.io/name: backend
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: metrics-scraper
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: metrics-scraper
+    {{- include "labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+  selector:
+    app.kubernetes.io/name: metrics-scraper
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: terminal
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: terminal
+    {{- include "labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3003
+      targetPort: 3003
+  selector:
+    app.kubernetes.io/name: terminal
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: frontend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: frontend
+    {{- include "labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.frontend.service.type }}
+  ports:
+    - name: http
+{{- if hasKey .Values.frontend.service "nodePort" }}
+      nodePort: {{ .Values.frontend.service.nodePort }}
+{{- end }}
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app.kubernetes.io/name: frontend
+
+{{- end }}

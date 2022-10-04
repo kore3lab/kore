@@ -1,0 +1,61 @@
+packing: "" #all-in-one
+
+image:
+  repository: "ghcr.io/kore3lab/kore-board"
+  tag: ""
+  pullPolicy: IfNotPresent  #Always
+
+metrics-server:
+  enabled: false
+  args:
+    - --kubelet-insecure-tls
+
+ingress:
+  enabled: false
+  host: dash.k3.acornsoft.io
+  secret: tls-acornsoft-star
+
+metricsScraper:
+  persistence:
+    enabled: false
+    accessMode: ReadWriteOnce
+    size: 8Gi
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "20m"
+    limits:
+      memory: "128Mi"
+      cpu: "40m"
+
+backend:
+  replicaCount: 1
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+
+frontend:
+  replicaCount: 1
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "10m"
+    limits:
+      memory: "128Mi"
+      cpu: "20m"
+  service:
+    type: ClusterIP
+
+terminal:
+  resources:
+    requests:
+      memory: "192Mi"
+      cpu: "200m"
+    limits:
+      memory: "384Mi"
+      cpu: "300m"
+

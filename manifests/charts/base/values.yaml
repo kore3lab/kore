@@ -1,0 +1,12 @@
+image:
+  pullPolicy: IfNotPresent  #Always
+
+controller:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi

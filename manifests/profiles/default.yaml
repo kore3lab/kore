@@ -1,0 +1,11 @@
+apiVersion: install.kore3lab.io/v1alpha1
+kind: KoreOperator
+metadata:
+  name: default
+  namespace: kore-system
+spec:
+  components:
+    base:
+      enabled: false
+    dashboard:
+      enabled: true
